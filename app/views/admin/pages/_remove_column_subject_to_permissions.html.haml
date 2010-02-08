@@ -1,0 +1,2 @@
+%td.remove
+  = link_to image('remove', :alt => 'remove page'), remove_admin_page_url(page) if current_user_can_see_element(page)

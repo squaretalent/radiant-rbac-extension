@@ -1,6 +1,10 @@
 class Role < ActiveRecord::Base
-  has_and_belongs_to_many :users
+
   validates_uniqueness_of :role_name
+
+  has_many :designations, :dependent => :destroy
+  has_many :users, :through => :designations
+  
   belongs_to :created_by, :class_name => 'User'
   belongs_to :updated_by, :class_name => 'User'
   
@@ -10,11 +14,11 @@ class Role < ActiveRecord::Base
   
   before_destroy :verify_non_standard
   
-  RADIANT_STANDARDS = ['admin', 'developer']
+  RADIANT_STANDARDS = ['admin', 'designer', 'client']
   
   def verify_non_standard
     if RADIANT_STANDARDS.include?(self[:role_name].to_s)
-      raise Role::ProtectedRoleError, "`#{self[:role_name]}' is a protected role and may not be removed."
+      raise Role::ProtectedRoleError, "'#{self[:role_name]}' is a protected role and may not be removed."
     end
   end
   

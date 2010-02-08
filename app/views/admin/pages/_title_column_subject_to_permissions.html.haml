@@ -1,0 +1,10 @@
+%td.page{:style => "padding-left: #{padding_left(level)}px"}
+  %span.w1
+    - if simple
+      = icon
+      = node_title
+    - else
+      = expander(level) + link_to("#{icon} #{node_title}", edit_admin_page_url(page), :title => page.url) if current_user_can_see_element(page)
+      = expander(level) + "#{icon} #{node_title}" if !current_user_can_see_element(page)
+      = page_type
+      = spinner

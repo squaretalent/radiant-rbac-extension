@@ -1,9 +1,7 @@
-class Admin::RolesController < ApplicationController
-  only_allow_access_to :index, :show, :new, :create, :edit, :update, :remove_user, :add_user, :users, :destroy,
-    :when => :admin,
-    :denied_url => { :controller => 'pages', :action => 'index' },
-    :denied_message => 'You must have administrative privileges to edit Roles.'
+class Admin::RolesController < ApplicationController    
+  
   skip_before_filter :verify_authenticity_token, :only => [:users, :remove_user, :add_user]
+  
   def index
     @roles = Role.find(:all)
   end
@@ -12,12 +10,6 @@ class Admin::RolesController < ApplicationController
     @role = Role.find(params[:id])
   end
   
-  def edit
-    
-  end
-  def new
-    
-  end
   def update
     @role = Role.find(params[:id])
     if @role.update_attributes(params[:role])
@@ -53,6 +45,7 @@ class Admin::RolesController < ApplicationController
     
     result = {:available => [], :taken => []}
     
+    available_users = available_users - taken_users
     available_users.each do | usr |
       result[:available] << [usr.id, usr.name]
     end
@@ -72,6 +65,7 @@ class Admin::RolesController < ApplicationController
     
     if role.users << user
       render :json => {:status => "Ok", :role_id => role.id, :user_id => user.id }.to_json
+      user.save
     else
       render :json => {:status => "Error", :user_id => user.id }.to_json
     end
@@ -83,6 +77,7 @@ class Admin::RolesController < ApplicationController
     
     if role.remove_user(user)
       render :json => {:status => "Ok", :role_id => role.id, :user_id => user.id }.to_json
+      user.save
     else
       render :json => {:status => "Error", :user_id => user.id }.to_json
     end

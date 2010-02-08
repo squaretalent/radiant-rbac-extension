@@ -1,4 +1,5 @@
 class CreateRoleUsers < ActiveRecord::Migration
+  
   def self.up
     create_table :roles_users, :id => false do |t|
       t.column :role_id, :integer, :null => false
@@ -13,4 +14,5 @@ class CreateRoleUsers < ActiveRecord::Migration
     remove_index :roles_users, :role_id
     drop_table :roles_users
   end
+  
 end

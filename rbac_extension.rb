@@ -5,11 +5,11 @@ class RbacExtension < Radiant::Extension
   
   version "0.1"
   description "Restricts user access to pages, regions and tabs based on their role"
-  url "http://github.com/saltmedia/shinerly-rbac-extension"
+  url "http://github.com/squaretalent/radiant-rbac-extension"
   
   define_routes do |map|
     map.namespace :admin do |admin|
-      admin.resources :roles#, :member => {:users => :get, :remove_user => :delete, :add_user => :post}
+      admin.resources :roles
       admin.role_user '/roles/:role_id/users/:id', :controller => 'roles', :action => 'remove_user', :conditions => {:method => :delete}
       admin.role_user '/roles/:role_id/users/:id', :controller => 'roles', :action => 'add_user', :conditions => {:method => :post}
       admin.role_users '/roles/:role_id/users', :controller => 'roles', :action => 'users', :conditions => {:method => :get}
@@ -25,12 +25,6 @@ class RbacExtension < Radiant::Extension
       update_interface
       
     end
-    
-  end
-  
-  def deactivate
-    
-    #admin.tabs.remove "Roles"
     
   end
 

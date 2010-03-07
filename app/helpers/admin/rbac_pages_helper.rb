@@ -4,17 +4,21 @@ module Admin::RbacPagesHelper
         
     return true if current_user.send("admin?")
     
-    while page.role.nil?
-      page = page.parent
-    end
+    begin
+      while page.role.nil?
+        page = page.parent
+      end
     
-    if page.role.role_name == "Admin"
-      return false
-    elsif page.role.role_name == "Designer"
-      if current_user.send("designer?")
+      if page.role.role_name == "Admin"
+        return false
+      elsif page.role.role_name == "Designer"
+        if current_user.send("designer?")
+          return true
+        end
+      else
         return true
       end
-    else
+    rescue
       return true
     end
     

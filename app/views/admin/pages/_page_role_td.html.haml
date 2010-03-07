@@ -2,9 +2,9 @@
   %td
     - if page.role.nil?
       -if current_user.roles.include? page.parent.role
-        = page.parent.role.role_name.pluralize
+        = "#{page.parent.role.role_name.pluralize} (inherited)"
       - else
-        %span{:style => "color: #ccc"}= page.parent.role.role_name.pluralize      
+        %span{:style => "color: #ccc"}= "#{page.parent.role.role_name.pluralize} (inherited)"
     - else
       -if current_user.roles.include? page.role
         = page.role.role_name.pluralize

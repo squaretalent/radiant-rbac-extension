@@ -1,6 +1,11 @@
 - if current_user.send("admin?") || current_user.send("designer?")
   %td
-    - unless page.role.nil?
+    - if page.role.nil?
+      -if current_user.roles.include? page.parent.role
+        = page.parent.role.role_name.pluralize
+      - else
+        %span{:style => "color: #ccc"}= page.parent.role.role_name.pluralize      
+    - else
       -if current_user.roles.include? page.role
         = page.role.role_name.pluralize
       - else

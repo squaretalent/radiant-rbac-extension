@@ -1,10 +1,12 @@
 - if current_user.send("admin?") || current_user.send("designer?")
   %td
     - if page.role.nil?
-      -if current_user.roles.include? page.parent.role
-        = "#{page.parent.role.role_name.pluralize} (inherited)"
+      - while page.role.nil?
+        - page = page.parent
+      -if current_user.roles.include? page.role
+        = "#{page.role.role_name.pluralize} (inherited)"
       - else
-        %span{:style => "color: #ccc"}= "#{page.parent.role.role_name.pluralize} (inherited)"
+        %span{:style => "color: #ccc"}= "#{page.role.role_name.pluralize} (inherited)"
     - else
       -if current_user.roles.include? page.role
         = page.role.role_name.pluralize

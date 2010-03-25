@@ -14,7 +14,7 @@
             = image('snippet', :alt => '')
             %span= link_to role.role_name, admin_role_path(role)
           %td.remove
-            = link_to image('remove', :alt => 'Remove Role'), admin_role_path(role), :confirm => "Are you sure?", :method => :delete unless role.standard?
+            = link_to t('remove'), admin_role_path(role), :confirm => "Are you sure?", :method => :delete unless role.standard?
 
 
 #actions

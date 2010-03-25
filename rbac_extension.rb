@@ -30,8 +30,8 @@ class RbacExtension < Radiant::Extension
 
   def update_interface
     
-    tab :Settings do
-      add_item :Roles, "/admin/roles", :after => :Users
+    tab 'Settings' do
+      add_item 'Roles', "/admin/roles", :after => 'Users'
     end
     
     admin.users.edit[:form].delete('edit_roles')
